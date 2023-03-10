@@ -131,3 +131,4 @@ dmypy.json
 .pyre/
 .vscode/launch.json
 dundie/testeteste.py
+day01/blog/teste.py
