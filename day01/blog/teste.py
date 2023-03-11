@@ -1,7 +1,11 @@
-from pathlib import Path
 
-site = Path("folder")
-site.
-print(site)
-print(site.absolute())
-site.mkdir(exist_ok=True)
+nome = "José"
+
+palavra = ""
+for letra in nome:
+    
+    if letra in "áéíóú":
+        print("acento")
+    palavra.join(letra)
+
+print(palavra)
