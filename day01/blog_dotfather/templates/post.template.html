@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Blog</title>
-</head>
-<body>
-    <h1>{post[title]}</h1>
-    <hr />
-    <p>
-        {post[content]}
-    </p>
-    <hr />
-    <small>{post[author]}</small>
-</body>
-</html>
+{% extends 'base.template.html' %}
+
+{% block headline %}
+  {{ post.title }}
+{% endblock %}
+    
+{% block content %}
+  <p>
+  {{ post.content }}
+  </p>
+{% endblock %} 
+
+{% block footer %}
+  {{ post.author }}
+{% endblock %}
