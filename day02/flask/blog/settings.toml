@@ -1,7 +1,10 @@
 [default]
 mongo_uri = "mongodb://localhost:27017/blog"
+title = "meu blog"
 extensions = [
     "blog.database:configure",
     "blog.commands:configure",
+    "flask_bootstrap:Bootstrap",
+    "blog.views:configure",
+    "blog.plugins:configure",
 ]
-    

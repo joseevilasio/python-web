@@ -1,4 +1,5 @@
 import click
+from flask import Flask
 
 from blog.posts import (
     get_all_posts,
@@ -52,5 +53,5 @@ def update(slug, content, published):
     click.echo("Post updated")
 
 
-def configure(app):
+def configure(app: Flask):
     app.cli.add_command(post)
