@@ -1,5 +1,6 @@
 from blog.database import mongo
 from datetime import datetime
+import unicodedata
 
 
 def get_all_posts(published: bool = True):
@@ -13,21 +14,37 @@ def get_post_by_slug(slug: str) -> dict:
 
 
 def update_post_by_slug(slug: str, data: dict) -> dict:
-    #TODO: Se o titulo mudar, atualizar o slug (falhar se já existir)
-    return mongo.db.posts.find_one_and_update({"slug": slug}, {"$set": data})
+    
+    if mongo.db.posts.find_one({"slug": slug}):
+        return False, slug
+    else:
+        return True, mongo.db.posts.find_one_and_update({"slug": slug}, {"$set": data})
 
 
-def new_post(title: str, content: str, published: bool = True) -> str:
-    slug = title.replace(" ", "-").replace("_", "-").lower()
-    # TODO: Verificar se post com este slug já existe
-    # TODO: Refatoração a criação de slug removendo acentos
-    mongo.db.posts.insert_one(
-        {
-            "title": title,
-            "content": content,
-            "published": published,
-            "slug": slug,
-            "date": datetime.now(),
-        }
-    )
-    return slug
+def new_post(title: str, content: str, published: bool = True) -> bool:
+
+    text = "".join(c for c in unicodedata.normalize("NFD", title) if unicodedata.category(c) != "Mn")
+    slug = text.replace(" ", "-").replace("_", "-").lower()
+   
+    if mongo.db.posts.find_one({"slug": slug}):
+        return False, slug
+    else:
+        mongo.db.posts.insert_one(
+            {
+                "title": title,
+                "content": content,
+                "published": published,
+                "slug": slug,
+                "date": datetime.now(),
+            }
+        )
+        return True, slug
+
+
+def unpublish(slug: str) -> dict:
+    return mongo.db.posts.find_one_and_update({"slug": slug}, {"$set": {"published": False}})
+
+
+def delete(slug: str) -> str:
+    if mongo.db.posts.delete_one({"slug": slug}):
+        return f"Post {slug} deleted"
