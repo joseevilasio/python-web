@@ -1,10 +1,8 @@
-from flask import Flask, url_for, request
-from flask_pymongo import PyMongo
-
-app = Flask(__name__)
+from flask import Flask
+from .config import configure
 
 
-app.config["APP_NAME"] = "Meu Blog"
-app.config["MONGO_URI"] = "mongodb://localhost:27017/blog"
-
-mongo = PyMongo(app)
+def create_app():
+    app = Flask(__name__)
+    configure(app)
+    return app

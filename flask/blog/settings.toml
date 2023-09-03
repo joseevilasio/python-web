@@ -1,6 +1,7 @@
 [default]
-mongo_uri = "mongodb:localhost:27017/blog"
+mongo_uri = "mongodb://localhost:27017/blog"
 title = "Meu Blog"
 extensions = [
-    "blog.database:configure"
+    "blog.database:configure",
+    "blog.commands:configure"
 ]
