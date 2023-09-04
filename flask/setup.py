@@ -10,6 +10,7 @@ setup(
         "dynaconf",
         "flask-bootstrap",
         "mistune",
-        "flask-simplelogin"
+        "flask-simplelogin",
+        "flask-admin"
     ]
 )

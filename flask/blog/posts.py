@@ -17,9 +17,9 @@ def get_post_by_slug(slug: str) -> dict:
 def update_post_by_slug(slug: str, data: dict) -> dict:
     
     if mongo.db.posts.find_one({"slug": slug}):
-        return False, slug
+        raise FileExistsError("Post already exist")
     else:
-        return True, mongo.db.posts.find_one_and_update({"slug": slug}, {"$set": data})
+        return mongo.db.posts.find_one_and_update({"slug": slug}, {"$set": data})
 
 
 def new_post(title: str, content: str, published: bool = True) -> bool:
@@ -28,7 +28,7 @@ def new_post(title: str, content: str, published: bool = True) -> bool:
     slug = text.replace(" ", "-").replace("_", "-").lower()
    
     if mongo.db.posts.find_one({"slug": slug}):
-        raise FileExistsError
+        raise FileExistsError("Post already exist")
     
     mongo.db.posts.insert_one(
         {
